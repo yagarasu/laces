@@ -2,7 +2,7 @@
 class LaceInclude implements iLace {
 
 	private $pattern = '/~\{ \s* 
-		view (?<id>\#\w+)?) \s* 
+		include (?<id>\#\w+)?) \s* 
 			(?<attrs> (?:\w+=\".*?\"\s*)*) \s*
 			(?<filters> (?:\|\s*\w+\s*)*) \s*
 		\}~ 
