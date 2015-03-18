@@ -15,11 +15,11 @@ class Filters {
 		return $res;
 	}
 
-	public function filter_html($input) {
+	public static function filter_html($input) {
 		return htmlspecialchars($input);
 	}
 
-	public function filter_mysql($input) {
+	public static function filter_mysql($input) {
 		$replace = array(
 			"\x00"	=>'\x00',
 			"\n"	=>'\n',
@@ -32,7 +32,7 @@ class Filters {
 		return strtr($input, $replace);
 	}
 
-	public function filter_attr($input) {
+	public static function filter_attr($input) {
 		$replace = array(
 			'"'	=> "'"
 		);

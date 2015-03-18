@@ -2,6 +2,6 @@
 interface iLace {
 	private $pattern;
 	public function __construct(string $rawString);
-	public function parse();
+	public function parse(Context $context);
 }
 ?>

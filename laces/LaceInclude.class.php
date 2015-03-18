@@ -30,7 +30,7 @@ class LaceInclude implements iLace {
 		$this->filters = Filters::strToFilterList($filters);
 	}
 
-	public function parse() {
+	public function parse(Context $context) {
 
 	}
 
