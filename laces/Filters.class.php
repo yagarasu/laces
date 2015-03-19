@@ -10,9 +10,17 @@ class Filters {
 		$res = array();
 		foreach ($filters as $filter) {
 			$finalFilter = preg_replace('/\s/', '_', $filter);
-			array_push($res, 'filter_' . $finalFilter);
+			array_push($res, 'filter' . $finalFilter);
 		}
 		return $res;
+	}
+	
+	public static function filterWith($input, $filters) {
+		$buffer = $input;
+		foreach($filters as $f) {
+			$buffer = call_user_func('self::'.$f, $input);
+		}
+		return $buffer;
 	}
 
 	public static function filter_html($input) {

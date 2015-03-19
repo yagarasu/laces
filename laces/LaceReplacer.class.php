@@ -23,7 +23,7 @@ class LaceReplacer implements iLace {
 		$this->filters = Filters::strToFilterList($filters);
 	}
 
-	public function parse(Context $context) {
+	public function parse(Context &$context) {
 		return 'PARSE';
 	}
 

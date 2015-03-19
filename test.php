@@ -4,15 +4,19 @@
 	
 	$l = new Laces();
 	
-	$l->render('
-		{{{ LacesTemplate language="es_MX" author="yo mero" }}}
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+	$l->loadAndRender('test.ltp');
+	
+	// $l->render('
+	// 	{{{ LacesTemplate language="es_MX" author="yo mero mero sabor ranchero" }}}
+	// 	Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+		
+	// 	INC START
+	// 	~{ include#myInclude src="test.ltp" parse="true" | html }~
+	// 	INC END
 
-		~{ include#foo src="tesst.tpl" parse="false" | html }~
+	// 	~{ include#myInclude | html }~
 
-		Querida, ~{{ $nombre }}. Te escribo este ~{{ $fecha }}~
-
-		Eos atque amet, excepturi voluptate illo rerum culpa incidunt odit tempore officiis neque, doloremque inventore sunt voluptas, dolor, nesciunt aliquid architecto maxime!
-	');
+	// 	Eos atque amet, excepturi voluptate illo rerum culpa incidunt odit tempore officiis neque, doloremque inventore sunt voluptas, dolor, nesciunt aliquid architecto maxime!
+	// ');
 
 ?>

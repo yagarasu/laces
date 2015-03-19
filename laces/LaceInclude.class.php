@@ -1,37 +1,44 @@
 <?php
-class LaceInclude implements iLace {
+class LaceInclude extends Lace implements iLace {
 
-	private $pattern = '/~\{ \s* 
-		include (?<id>\#\w+)?) \s* 
-			(?<attrs> (?:\w+=\".*?\"\s*)*) \s*
-			(?<filters> (?:\|\s*\w+\s*)*) \s*
+	protected $pattern = '/~\{ \s* 
+		(include (?<id>\#\w+)?) \s* 
+			(?<attrs> (?: \w+=\".*?\" )* ) \s*
+			(?<filters> (?: \|\s*\w+\s*)* ) \s*
 		\}~ 
 		/six';
-
-	private $id = '';
-	private $src = '';
-	private $parse = true;
-	private $filters = array();
+		
+	protected $attrs = array(
+		'src'	=>	'',
+		'parse'	=>	'true'
+	);
 
 	public function __construct($rawString) {
 		$m = array();
-		if(preg_match($this->pattern, $rawString)===0) throw new Exception('Raw string doesn\'t match pattern for Lace Include.');
-		$this->id = (isset($m['id'])&&!empty($m['id'])) ? $m['id'] : '';
-		$this->src = (isset($m['src'])&&!empty($m['src'])) ? $m['src'] : '';
-		$this->parse = (isset($m['parse'])&&!empty($m['parse'])) ? $m['parse'] : 'true';
-		if(strtoupper($this->parse)==='TRUE') {
-			$this->parse = true;
-		} else if(strtoupper($this->parse)==='FALSE') {
-			$this->parse = false;
-		} else {
-			throw new Exception('Unknown value "'.$this->parse.'" for "parse" attribute.');
-		}
-		$filters = (isset($m['filters'])&&!empty($m['filters'])) ? $m['filters'] : ''; 
-		$this->filters = Filters::strToFilterList($filters);
+		if(preg_match_all($this->pattern, $rawString, $m)===0) throw new Exception('Raw string doesn\'t match pattern for Lace Include.');
+		$this->parseAttrs($m['attrs'][0]);
+		$this->filters = Filters::strToFilterList($m['filters'][0]);
 	}
 
-	public function parse(Context $context) {
-		return 'ASDAS';
+	public function parse(Context &$context) {
+		$output = '';
+		if(!is_readable($this->attrs['src'])) {
+			$output .= '<!-- LacesInclude';
+			$output .= (isset($this->attrs['id'])) ? $this->attrs['id'] : '';
+			$output .= ' Error. Unable to find file "'.$this->attrs['src'].'".';
+			$output .= '-->';
+		} else {
+			$tpl = file_get_contents($this->attrs['src']);
+			if($this->attrs['parse']==='true') {
+				$l = new Laces($context);
+				$output .= $l->parse($tpl);
+			} else {
+				$output .= $tpl;
+			}
+		}
+		$fOut = Filters::filterWith($output, $this->filters);
+		if(isset($this->attrs['id'])) $context->set($this->attrs['id'], $fOut);
+		return $fOut;
 	}
 
 }

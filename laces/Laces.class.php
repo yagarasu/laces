@@ -49,13 +49,13 @@ class Laces {
 			(?:
 				(~\{\{ \s* ((\$\w+(\:\w+)*) | (\#\w+\:\w+) | (\(.*?\)) ) \s* (\|\s*\w+\s*)* \}\}~)
 				|
-				(~{ \s* \w+ \s* (\(.*?\))? \s* (\w+=\".*?\")* \s* (\|\s*\w+\s*)* \}~)
+				(~{ \s* \w+(\#\w+)? \s* (\(.*?\))? \s* (\w+=\".*?\")* \s* (\|\s*\w+\s*)* \}~)
 				|
 				(~{ \s* (?<fulltag>\w+(\#\w+)?) \s* (\(.*?\))? \s* (\w+=\".*?\")* \s* (\|\s*\w+\s*)* \} .*? \{ \s* \k<fulltag> \s*\}~)
 			)
 		/sxmi';
 		$buffer = preg_replace_callback($pattern, array($this, 'parse_preg_replace_cb'), $buffer);
-		return $buffer;
+		return ltrim( "<!-- HEADER METADATA: \n " . var_export($header, true) . "\n -->" . $buffer );
 	}
 	
 	/**
@@ -99,17 +99,16 @@ class Laces {
             'author'   => 'Unknown',
             'language' => 'eo'
         );
-        $pattern = '/\{\{\{\s*(?<filetype>[a-zA-Z][a-zA-Z0-9\-\_]+)\s*(?<attrs>(?:[a-zA-Z][a-zA-Z0-9\-\_]+=\".*?\")*)\s*\}\}\}/';
+        $pattern = '/\{\{\{\s*(?<filetype>\w+)\s*(?<attrs>(?:\w+=\".*?\")*)\s*\}\}\}/six';
         $m = array();
         if(preg_match($pattern, $header, $m)===0) throw new Exception('Header syntax error.');
         $meta['filetype'] = $m['filetype'];
-        $attrs = preg_split('/\s+/',$m['attrs']);
-        foreach($attrs as $attr) {
-        	if($attr==='') continue;
+        $am = array();
+        if(preg_match_all('/(\w+=\".*?\")/msx', $m['attrs'], $am)===0) return $meta;
+        foreach($am[0] as $attr) {
             $a = $this->header_parseAttribs($attr);
             $meta[$a['name']] = $a['value'];
         }
-        var_dump($meta);
         return $meta;
 	}
 
@@ -119,6 +118,7 @@ class Laces {
 	 * @return array The result of the parsing in the form of array( 'name'=>$name, 'value'=>$value )
 	 */
 	private function header_parseAttribs($rawString) {
+		if(empty($rawString)) return;
 		$m = array();
         $pattern = '/(?<aname>[a-zA-Z][a-zA-Z0-9\-\_]+)=(?<aval>\".*?\")/';
         if(preg_match($pattern, $rawString, $m)===0) throw new Exception('Attribute syntax error.');
@@ -144,7 +144,7 @@ class Laces {
 	 * @return string The result of the parsed content.
 	 */
 	public function loadAndParse($url) {
-		if(preg_match('/^https?\:\/\//')===1) throw new Exception('For security reasons, you can only load relative paths.');
+		if(preg_match('/^https?\:\/\//', $url)===1) throw new Exception('For security reasons, you can only load relative paths.');
 		$temp = file_get_contents($url);
 		if($temp===false) throw new Exception('Unable to get the content from "'.$url.'".');
 		return $this->parse($temp);
