@@ -1,2 +1,33 @@
-{{{ LacesTemplate }}}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ac tellus ornare, tempor velit efficitur, gravida est. Donec sit amet imperdiet velit. Integer convallis metus rhoncus erat scelerisque semper. Vestibulum <strong>porttitor</strong> massa faucibus dolor consequat tristique. Aliquam et fermentum metus, quis eleifend lorem. Nunc et molestie purus. Ut eu convallis turpis, eget hendrerit velit.
+{{{ LacesTemplate language="es_MX" author="Alexys Hegmann" hcolor="#cc0000" }}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>~{{ $title | html }}~</title>
+</head>
+<body>
+	
+	<div id="wrapper">
+	    
+	    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ac tellus ornare, tempor velit efficitur, gravida est. Donec sit amet imperdiet velit. Integer convallis metus rhoncus erat scelerisque semper. Vestibulum <strong>porttitor</strong> massa faucibus dolor consequat tristique. Aliquam et fermentum metus, quis eleifend lorem. Nunc et molestie purus. Ut eu convallis turpis, eget hendrerit velit.</p>
+
+        <p>Hola, ~{{ $nombre | html }}~, qué tal. Sabías que este <span style="color: ~{{ $_HEADER:hcolor | attr }}~;">template</span> fue creado por ~{{ $_HEADER:author }}~?</p>
+        
+        <p>Aqui $sNews es: ~{{ $sNews }}~</p>
+        
+        <ul>
+        ~{ foreach#news use="$news" as="$sNews" }
+            <li>Aqui se usa $sNews de un scope interno ~{{ $sNews | html }}~, pero $nombre debe ser igual: ~{{ $nombre }}~</li>
+        { foreach#news }~
+        </ul>
+        
+        <p>Aqui $sNews debe ser igual: ~{{ $sNews | html }}~</p>
+        
+        <p>Y aqui #news deberia estar seteado al resultado de la iteracion anterior: ~{{ #news | html }}~</p>
+        
+	</div>
+	
+</body>
+</html>
+

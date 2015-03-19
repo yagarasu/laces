@@ -14,6 +14,7 @@ class LaceInclude extends Lace implements iLace {
 	);
 
 	public function __construct($rawString) {
+		$this->rawString = $rawString;
 		$m = array();
 		if(preg_match_all($this->pattern, $rawString, $m)===0) throw new Exception('Raw string doesn\'t match pattern for Lace Include.');
 		$this->parseAttrs($m['attrs'][0]);
@@ -39,6 +40,10 @@ class LaceInclude extends Lace implements iLace {
 		$fOut = Filters::filterWith($output, $this->filters);
 		if(isset($this->attrs['id'])) $context->set($this->attrs['id'], $fOut);
 		return $fOut;
+	}
+	
+	public function __toString() {
+		return '{ Lace:Include }';
 	}
 
 }

@@ -45,15 +45,16 @@ class Laces {
 		if($hdr===null) throw new Exception('Header not found.');
 		$buffer = substr($buffer, strlen($hdr['raw']));
 		$header = $this->header_parse($hdr['hdr']);
+		$this->context->set('$_HEADER', $header);
 		$pattern = '/
 			(?:
-				(~\{\{ \s* ((\$\w+(\:\w+)*) | (\#\w+\:\w+) | (\(.*?\)) ) \s* (\|\s*\w+\s*)* \}\}~)
+				(~\{\{ \s* ((\$\w+(\:\w+)*) | (\#\w+) | (\(.*?\)) ) \s* (\|\s*\w+\s*)* \}\}~)
 				|
 				(~{ \s* \w+(\#\w+)? \s* (\(.*?\))? \s* (\w+=\".*?\")* \s* (\|\s*\w+\s*)* \}~)
 				|
 				(~{ \s* (?<fulltag>\w+(\#\w+)?) \s* (\(.*?\))? \s* (\w+=\".*?\")* \s* (\|\s*\w+\s*)* \} .*? \{ \s* \k<fulltag> \s*\}~)
 			)
-		/sxmi';
+		/six';
 		$buffer = preg_replace_callback($pattern, array($this, 'parse_preg_replace_cb'), $buffer);
 		return ltrim( "<!-- HEADER METADATA: \n " . var_export($header, true) . "\n -->" . $buffer );
 	}

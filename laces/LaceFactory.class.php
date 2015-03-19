@@ -14,16 +14,28 @@ class LaceFactory {
     public static function create($rawString) {
         
         if(preg_match('/~\{ \s* 
+		(foreach (?<id>\#\w+)?) \s* 
+			(?<attrs> (?: \w+=\".*?\" )* ) \s*
+			(?<filters> (?: \|\s*\w+\s*)* ) \s* \}
+				(?<cont> .*?)
+		\{ \s* foreach \k<id> \s* \}~ 
+		/six', $rawString)===1) return new LaceForeach($rawString);
+        
+        if(preg_match('/~\{ \s* 
 		(include (?<id>\#\w+)?) \s* 
 			(?<attrs> (?:\w+=\".*?\"\s*)*) \s*
 			(?<filters> (?:\|\s*\w+\s*)*) \s*
 		\}~ 
 		/six', $rawString)===1) return new LaceInclude($rawString);
 		
-		if(preg_match('/~\{\{ \s* 
-            ( (?<varname> \$\w+(\:\w+)*) | (?<id> \#\w+\:\w+) | (?<expr> \(.*?\)) ) \s* 
-            (?<filters> (\|\s*\w+\s*)*) 
-        \}\}~
+		if(preg_match('/~\{\{ \s*
+		(
+		  (?<id> \#\w+) |
+		  (?<var> \$\w+(?:\:\w+)* ) |
+		  (?<exp> \[.*?\])
+		)
+		  (?<filters> (\s*\|\s*\w+)*)
+		\s* \}\}~
         /six', $rawString)===1) return new LaceReplacer($rawString);
         
         return null;

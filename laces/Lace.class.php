@@ -8,6 +8,8 @@ abstract class Lace {
 
 	protected $filters = array();
 	protected $attrs = array();
+	
+	public $rawString = '';
 
     protected function parseAttrs($rawString) {
         if(empty($rawString)) return;
@@ -27,6 +29,10 @@ abstract class Lace {
         	'name'	=>	$m['aname'] ,
         	'value'	=>	substr($m['aval'], 1, strlen($m['aval'])-2)
         );
+    }
+    
+    public function __toString() {
+        return '{ Lace }';
     }
     
 }

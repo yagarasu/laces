@@ -18,7 +18,9 @@ class Filters {
 	public static function filterWith($input, $filters) {
 		$buffer = $input;
 		foreach($filters as $f) {
-			$buffer = call_user_func('self::'.$f, $input);
+			if(is_callable('self::'.$f)) {
+				$buffer = call_user_func('self::'.$f, $input);
+			}
 		}
 		return $buffer;
 	}

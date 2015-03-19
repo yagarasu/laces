@@ -1,30 +1,42 @@
 <?php
-class LaceReplacer implements iLace {
+class LaceReplacer extends Lace implements iLace {
 
-    private $pattern = '/~\{\{ \s* 
-        ( (?<varname> \$\w+(\:\w+)*) | (?<id> \#\w+\:\w+) | (?<expr> \(.*?\)) ) \s* 
-        (?<filters> (\|\s*\w+\s*)*) 
-    \}\}~
+    protected $pattern = '/~\{\{ \s*
+		(
+		  (?<id> \#\w+) |
+		  (?<varname> \$\w+(?:\:\w+)* ) |
+		  (?<exp> \[.*?\])
+		)
+		  (?<filters> (\s*\|\s*\w+)*)
+		\s* \}\}~
     /six';
     
-	private $id = '';
-	private $varname = '';
-	private $expr = '';
-	
-	private $filters = array();
+    private $replacement = null;
+    private $type = null;
+	protected $attrs = array();
 
 	public function __construct($rawString) {
+		$this->rawString = $rawString;
 		$m = array();
-		if(preg_match($this->pattern, $rawString)===0) throw new Exception('Raw string doesn\'t match pattern for Lace Include.');
-		$this->id = (isset($m['id'])&&!empty($m['id'])) ? $m['id'] : '';
-		$this->varname = (isset($m['varname'])&&!empty($m['varname'])) ? $m['varname'] : '';
-		$this->expr = (isset($m['expr'])&&!empty($m['expr'])) ? $m['expr'] : '';
-		$filters = (isset($m['filters'])&&!empty($m['filters'])) ? $m['filters'] : ''; 
-		$this->filters = Filters::strToFilterList($filters);
+		if(preg_match($this->pattern, $rawString, $m)===0) throw new Exception('Raw string doesn\'t match pattern for Lace Replacer.');
+		if(!empty($m['expr'])) { $this->replacement = $m['expr']; $this->type='LREPLACER_TYPE_EXPR'; }
+		if(!empty($m['varname'])) { $this->replacement = $m['varname']; $this->type='LREPLACER_TYPE_VAR'; }
+		if(!empty($m['id'])) { $this->replacement = $m['id']; $this->type='LREPLACER_TYPE_ID'; }
+		$this->filters = Filters::strToFilterList($m['filters']);
 	}
 
 	public function parse(Context &$context) {
-		return 'PARSE';
+		$output = '';
+		if($this->type==='LREPLACER_TYPE_EXPR') {
+			// Parse before returning
+			$output = '(EXP '.$this->replacement.')';
+		}
+		$output = $context->get($this->replacement);
+		return Filters::filterWith($output, $this->filters);
+	}
+	
+	public function __toString() {
+		return '{ Lace:Replacer }';
 	}
 
 }
