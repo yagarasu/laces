@@ -1,12 +1,12 @@
 <?php
 class Filters {
 
-	public static function strToFilterList(string $rawString) {
+	public static function strToFilterList($rawString) {
 		// Remove extra spaces and trim
 		$rawString = preg_replace('/\s+/', ' ', $rawString);
 		$rawString = trim($rawString);
 		// Get array from pipes without the first pipe
-		$filters = preg_split('/\|\s/', substr($match['filters'],1));
+		$filters = preg_split('/\|\s/', substr($rawString,1));
 		$res = array();
 		foreach ($filters as $filter) {
 			$finalFilter = preg_replace('/\s/', '_', $filter);

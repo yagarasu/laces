@@ -11,10 +11,10 @@ class LaceFactory {
      * 
      * @param string $rawString The captured string
      */
-    public static function create(string $rawString) {
+    public static function create($rawString) {
         
         if(preg_match('/~\{ \s* 
-		include (?<id>\#\w+)?) \s* 
+		(include (?<id>\#\w+)?) \s* 
 			(?<attrs> (?:\w+=\".*?\"\s*)*) \s*
 			(?<filters> (?:\|\s*\w+\s*)*) \s*
 		\}~ 

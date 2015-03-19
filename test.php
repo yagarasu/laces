@@ -1,15 +1,18 @@
 <?php
 
-	require 'laces/Context.class.php';
+	require 'laces/Laces.class.php';
 	
-	$c = new Context();
+	$l = new Laces();
 	
-	$c->set('$foo:bar', 'foooooo');
-	$c->set('COOONST', 'const const');
-	$c->set('#myId', array('asd','asd'));
+	$l->render('
+		{{{ LacesTemplate language="es_MX" author="yo mero" }}}
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
 
-	var_dump($c->exists('#myId'));
+		~{ include#foo src="tesst.tpl" parse="false" | html }~
 
-	//var_dump($c->getRawArray());
+		Querida, ~{{ $nombre }}. Te escribo este ~{{ $fecha }}~
+
+		Eos atque amet, excepturi voluptate illo rerum culpa incidunt odit tempore officiis neque, doloremque inventore sunt voluptas, dolor, nesciunt aliquid architecto maxime!
+	');
 
 ?>

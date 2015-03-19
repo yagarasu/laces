@@ -13,7 +13,7 @@ class LaceReplacer implements iLace {
 	
 	private $filters = array();
 
-	public function __construct(string $rawString) {
+	public function __construct($rawString) {
 		$m = array();
 		if(preg_match($this->pattern, $rawString)===0) throw new Exception('Raw string doesn\'t match pattern for Lace Include.');
 		$this->id = (isset($m['id'])&&!empty($m['id'])) ? $m['id'] : '';
@@ -24,7 +24,7 @@ class LaceReplacer implements iLace {
 	}
 
 	public function parse(Context $context) {
-
+		return 'PARSE';
 	}
 
 }

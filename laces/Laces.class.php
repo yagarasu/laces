@@ -1,5 +1,21 @@
 <?php
+// Shared
 define('LACES_VERSION','1.0.0');
+if(!defined('LACES_ROOT')) define('LACES_ROOT', 'laces/');
+
+// Autoload
+spl_autoload_register(function($className) {
+	if(preg_match('/^i[A-Z]\w*$/', $className)===1) {
+		// Is interface
+		$filename = LACES_ROOT . $className . '.inc.php';
+	} else {
+		// Is class
+		$filename = LACES_ROOT . $className . '.class.php';
+	}
+	if(!is_readable($filename)) throw new Exception('Unable to load file "'.$filename.'".');
+	require_once($filename);
+});
+
 /**
  * Laces core class
  */
@@ -23,7 +39,7 @@ class Laces {
 	 * @param string $template Template to parse
 	 * @return string Parsed template
 	 */
-	public function parse(string $template) {
+	public function parse($template) {
 		$buffer = $template;
 		$hdr = $this->header_get($buffer);
 		if($hdr===null) throw new Exception('Header not found.');
@@ -38,7 +54,7 @@ class Laces {
 				(~{ \s* (?<fulltag>\w+(\#\w+)?) \s* (\(.*?\))? \s* (\w+=\".*?\")* \s* (\|\s*\w+\s*)* \} .*? \{ \s* \k<fulltag> \s*\}~)
 			)
 		/sxmi';
-		$buffer = preg_replace_callback($pattern, array(), $buffer);
+		$buffer = preg_replace_callback($pattern, array($this, 'parse_preg_replace_cb'), $buffer);
 		return $buffer;
 	}
 	
@@ -50,6 +66,7 @@ class Laces {
 	 */
 	private function parse_preg_replace_cb($match) {
 		$lace = LaceFactory::create($match[0]);
+		if($lace===null) return $match[0];
 		return $lace->parse($this->context);
 	}
 	
@@ -59,7 +76,7 @@ class Laces {
 	 * @param string $template Template to parse
 	 * @return array An array containing the raw match ['raw'] and the parsed match ['hdr'].
 	 */
-	private function header_get(string $template) {
+	private function header_get($template) {
 		$pattern = '/^\s*(?<hdr>\{\{\{.*?\}\}\})/';
         $m = array();
         if(preg_match($pattern, $template, $m)===1) return array(
@@ -75,7 +92,7 @@ class Laces {
 	 * @param string $header A correctly formed header.
 	 * @return array The metadata from the header
 	 */
-	private function header_parse(string $header) {
+	private function header_parse($header) {
 		$meta = array(
             'filetype' => 'LacesTemplate',
             'version'  => LACES_VERSION,
@@ -88,9 +105,27 @@ class Laces {
         $meta['filetype'] = $m['filetype'];
         $attrs = preg_split('/\s+/',$m['attrs']);
         foreach($attrs as $attr) {
-            $this->parseHeader_attrib($attr, $meta);
+        	if($attr==='') continue;
+            $a = $this->header_parseAttribs($attr);
+            $meta[$a['name']] = $a['value'];
         }
+        var_dump($meta);
         return $meta;
+	}
+
+	/**
+	 * Takes a string formatted as a param and returns key->value
+	 * @param  string $rawString The raw string
+	 * @return array The result of the parsing in the form of array( 'name'=>$name, 'value'=>$value )
+	 */
+	private function header_parseAttribs($rawString) {
+		$m = array();
+        $pattern = '/(?<aname>[a-zA-Z][a-zA-Z0-9\-\_]+)=(?<aval>\".*?\")/';
+        if(preg_match($pattern, $rawString, $m)===0) throw new Exception('Attribute syntax error.');
+        return array(
+        	'name'	=>	$m['aname'] ,
+        	'value'	=>	substr($m['aval'], 1, strlen($m['aval'])-2)
+        );
 	}
 
 	/**
@@ -98,7 +133,7 @@ class Laces {
 	 * 
 	 * @param string $template Template to render
 	 */
-	public function render(string $template) {
+	public function render($template) {
 		echo $this->parse($template);
 	}
 
@@ -108,7 +143,7 @@ class Laces {
 	 * @param string $url URL to get and parse
 	 * @return string The result of the parsed content.
 	 */
-	public function loadAndParse(string $url) {
+	public function loadAndParse($url) {
 		if(preg_match('/^https?\:\/\//')===1) throw new Exception('For security reasons, you can only load relative paths.');
 		$temp = file_get_contents($url);
 		if($temp===false) throw new Exception('Unable to get the content from "'.$url.'".');
@@ -120,7 +155,7 @@ class Laces {
 	 * 
 	 * @param string $url URL to get, parse and print
 	 */
-	public function loadAndRender(string $url) {
+	public function loadAndRender($url) {
 		echo $this->loadAndParse($url);
 	}
 
