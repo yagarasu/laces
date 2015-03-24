@@ -53,7 +53,39 @@ class Expression {
             case '/':
                 return $opa / $opb;
                 break;
-                // EXPAND!
+            case '%':
+                return $opa % $opb;
+                break;
+            case '^':
+                return $opa ^ $opb;
+                break;
+            case '&&':
+                return $opa && $opb;
+                break;
+            case '||':
+                return $opa || $opb;
+                break;
+            case '^^':
+                return $opa xor $opb;
+                break;
+            case '==':
+                return $opa == $opb;
+                break;
+            case '!=':
+                return $opa != $opb;
+                break;
+            case '>=':
+                return $opa >= $opb;
+                break;
+            case '<=':
+                return $opa <= $opb;
+                break;
+            case '>':
+                return $opa > $opb;
+                break;
+            case '<':
+                return $opa < $opb;
+                break;
         }
     }
     

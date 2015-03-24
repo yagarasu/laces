@@ -11,6 +11,8 @@
 	
 	$c->set('$sNews', 'FUUUUUU');
 	
+	$c->set('$num', 5);
+	
 	// $l = new Laces($c);
 	
 	// $l->loadAndRender('test.ltp');
@@ -26,38 +28,46 @@
 	
 	require 'laces_concepts/PEG.class.php';
 	
-	var_dump($c);
+	// var_dump($c);
 	
-	echo '<hr>INT: ';
-	$p = new PEG('123', $c);
-	var_dump($p->parse_literal());
+	// echo '<hr>INT: ';
+	// $p = new PEG('123', $c);
+	// var_dump($p->parse_literal());
+	// echo '<p><small>Stack: '.$p->buffer.'</small></p>';
 	
-	echo '<hr>FLOAT: ';
-	$p = new PEG('123.5', $c);
-	var_dump($p->parse_literal());
+	// echo '<hr>FLOAT: ';
+	// $p = new PEG('123.5', $c);
+	// var_dump($p->parse_literal());
+	// echo '<p><small>Stack: '.$p->buffer.'</small></p>';
 	
-	echo '<hr>BOOL: ';
-	$p = new PEG('false', $c);
-	var_dump($p->parse_literal());
+	// echo '<hr>BOOL: ';
+	// $p = new PEG('false', $c);
+	// var_dump($p->parse_literal());
+	// echo '<p><small>Stack: '.$p->buffer.'</small></p>';
 	
-	echo '<hr>BOOL: ';
-	$p = new PEG('tRuE', $c);
-	var_dump($p->parse_literal());
+	// echo '<hr>BOOL: ';
+	// $p = new PEG('tRuE', $c);
+	// var_dump($p->parse_literal());
+	// echo '<p><small>Stack: '.$p->buffer.'</small></p>';
 	
-	echo '<hr>STRING: ';
-	$p = new PEG('"coooollllll"', $c);
-	var_dump($p->parse_literal());
+	// echo '<hr>STRING: ';
+	// $p = new PEG('"coooollllll"', $c);
+	// var_dump($p->parse_literal());
+	// echo '<p><small>Stack: '.$p->buffer.'</small></p>';
 	
-	echo '<hr>VARIABLE: ';
-	$p = new PEG('$news:title', $c);
-	var_dump($p->parse_variable());
+	// echo '<hr>VARIABLE: ';
+	// $p = new PEG('$news:title', $c);
+	// var_dump($p->parse_variable());
+	// echo '<p><small>Stack: '.$p->buffer.'</small></p>';
 	
-	echo '<hr>ID: ';
-	$p = new PEG('#foo', $c);
-	var_dump($p->parse_variable());
+	// echo '<hr>ID: ';
+	// $p = new PEG('#foo', $c);
+	// var_dump($p->parse_variable());
+	// echo '<p><small>Stack: '.$p->buffer.'</small></p>';
 	
-	echo '<hr>OPERATION: ';
-	$p = new PEG('5*5', $c);
-	var_dump($p->parse_operation());
+	echo '<hr>OPBOOL: ';
+	$p = new PEG('(5==$num) ^^ true', $c);
+	var_dump($p->parse_opbool());
+	echo '<p><small>Stack: '.$p->buffer.'</small></p>';
 	
 ?>

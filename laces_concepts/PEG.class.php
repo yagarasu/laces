@@ -1,7 +1,7 @@
 <?php
 class PEG {
     
-    private $buffer = '';
+    public $buffer = '';
     private $stack = array();
     private $context = null;
     
@@ -19,23 +19,102 @@ class PEG {
     }
     
     private function backtrack($amnt=1) {
-        for($i=0;$i<$amnt;$i++) {
+        $cnt = 0;
+        while($cnt<$amnt) {
             $v = array_pop($this->stack);
             $this->buffer = $v . $this->buffer;
+            if(preg_match('/^ [\s\t]+ /xs',$v)===0) $cnt++;
         }
     }
     
-    // operation ::= value ("+"/"-" ... ) value
-    public function parse_operation() {
-        $opa = $this->parse_value();
+    private function ignoreWhitespace() {
+        $ws = $this->consumeRegex('/^ [\s\t]+ /xs');
+        if($ws===null) return false;
+        return true;
+    }
+    
+    // opbool ::= opcomp ( "&&" | "||" | "^^" ) opbool / opcomp
+    public function parse_opbool() {
+        $opa = $this->parse_opcomp();
         if($opa===null) return null;
         // value A matches
-        $op = $this->consumeRegex('/^ &&|\|\||\^\^|==|!=|\<=|\>=|\+|\-|\*|\/|%|\<|\> /x');
+        $this->ignoreWhitespace();
+        $op = $this->consumeRegex('/ ^\&\& | ^\|\| | ^\^\^ /x');
         if($op===null) {
-            $this->backtrack();
+            // It's not the first match, but the second
+            return $opa;
+        }
+        $this->ignoreWhitespace();
+        $opb = $this->parse_opbool();
+        if($opb===null) {
+            $this->backtrack(2);
             return null;
         }
-        $opb = $this->parse_value();
+        switch($op) {
+            case '&&':
+                return $opa && $opb;
+                break;
+            case '||':
+                return $opa || $opb;
+                break;
+            case '^^':
+                return $opa xor $opb;
+                break;
+        }
+    }
+    
+    // opcomp ::= opmathsum ( "==" | "!=" | ">=" ... ) opcomp / opmathsum
+    public function parse_opcomp() {
+        $opa = $this->parse_opmath_sum();
+        if($opa===null) return null;
+        // value A matches
+        $this->ignoreWhitespace();
+        $op = $this->consumeRegex('/ ^\=\= | ^\!\= | ^\>\= | ^\<\= | ^\> | ^\< /x');
+        if($op===null) {
+            // It's not the first match, but the second
+            return $opa;
+        }
+        $this->ignoreWhitespace();
+        $opb = $this->parse_opcomp();
+        if($opb===null) {
+            $this->backtrack(2);
+            return null;
+        }
+        switch($op) {
+            case '==':
+                return $opa == $opb;
+                break;
+            case '!=':
+                return $opa != $opb;
+                break;
+            case '>=':
+                return $opa >= $opb;
+                break;
+            case '<=':
+                return $opa <= $opb;
+                break;
+            case '>':
+                return $opa > $opb;
+                break;
+            case '<':
+                return $opa < $opb;
+                break;
+        }
+    }
+    
+    // opmathsum ::= opmathmult ("+"/"-" ... ) opmathsum / opnmathmult
+    public function parse_opmath_sum() {
+        $opa = $this->parse_opmath_mult();
+        if($opa===null) return null;
+        // value A matches
+        $this->ignoreWhitespace();
+        $op = $this->consumeRegex('/ ^\+ | ^\- /x');
+        if($op===null) {
+            // It's not the first match, but the second
+            return $opa;
+        }
+        $this->ignoreWhitespace();
+        $opb = $this->parse_opmath_sum();
         if($opb===null) {
             $this->backtrack(2);
             return null;
@@ -46,24 +125,66 @@ class PEG {
                 break;
             case '-':
                 return $opa - $opb;
-                break;
+        }
+    }
+    
+    // opmathmult ::= value ("+"/"-" ... ) opmathmult / value
+    public function parse_opmath_mult() {
+        $opa = $this->parse_value();
+        if($opa===null) return null;
+        // value A matches
+        $this->ignoreWhitespace();
+        $op = $this->consumeRegex('/ ^\* | ^\/ | ^% | ^\^(?!\^) /x');
+        if($op===null) {
+            return $opa;
+        }
+        $this->ignoreWhitespace();
+        $opb = $this->parse_opmath_mult();
+        if($opb===null) {
+            $this->backtrack(2);
+            return null;
+        }
+        switch($op) {
             case '*':
                 return $opa * $opb;
                 break;
             case '/':
                 return $opa / $opb;
                 break;
-                // EXPAND!
+            case '%':
+                return $opa % $opb;
+                break;
+            case '^':
+                return $opa ^ $opb;
+                break;
         }
     }
     
-    // value ::= variable / literal
+    // value ::= variable / literal / "(" opbool ")"
     public function parse_value() {
+        $this->ignoreWhitespace();
         $val = $this->parse_variable();
         if($val!==null) return $val;
         $val = $this->parse_literal();
         if($val!==null) return $val;
-        return null;
+        // It's not a variable nor a literal. If it doesn't have a parentheses, fail
+        $this->ignoreWhitespace();
+        if($this->consumeRegex('/^ \( /x')===null) return null;
+        // It looks like a nested expr. Check opbool
+        $this->ignoreWhitespace();
+        $expr = $this->parse_opbool();
+        if($expr===null) {
+            // opbool failed, backtrack
+            $this->backtrack();
+            return null;
+        }
+        $this->ignoreWhitespace();
+        if($this->consumeRegex('/^ \) /x')!==null) {
+            return $expr;
+        }
+        // Unbalanced parentheses maybe?!
+        $this->backtrack(2);
+        throw new Exception('Syntax error. Unbalanced parentheses.');
     }
     
     // variable ::= "$" [a-z]+ (":" [a-z]+)? / "#" [a-z]+
