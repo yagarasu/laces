@@ -1,18 +1,15 @@
 <?php
 
-	// require 'laces/Laces.class.php';
+	require 'laces/Laces.class.php';
 	
-	// $c = new Context();
-	// $c->set('$title','Prueba de Laces.');
-	// $c->set('$nombre','Alexys <em>Yagarasu</em>');
+	$c = new Context();
+	$c->set('$title','Prueba de Laces.');
+	$c->set('$nombre','Alexys <em>Yagarasu</em>');
+	$c->set('#foo','Alexys <em>Yagarasu</em>');
 	
-	// $c->set('$news',array(
-	// 	'Fooooo',
-	// 	'Baaaarrrr',
-	// 	'Baaaaaaaazzzzz'
-	// ));
+	$c->set('$news:title','Lorem ipsum dolor sit amet');
 	
-	// $c->set('$sNews', 'FUUUUUU');
+	$c->set('$sNews', 'FUUUUUU');
 	
 	// $l = new Laces($c);
 	
@@ -22,9 +19,45 @@
 	// var_dump($c->getRawArray());
 	// echo '</pre><hr>';
 
-	require 'laces/Expression.class.php';
+	// require 'laces/Expression.class.php';
 	
-	$e = new Expression('2 + 2');
-	echo $e->parse();
+	// $e = new Expression('2 + 2');
+	// echo $e->parse();
+	
+	require 'laces_concepts/PEG.class.php';
+	
+	var_dump($c);
+	
+	echo '<hr>INT: ';
+	$p = new PEG('123', $c);
+	var_dump($p->parse_literal());
+	
+	echo '<hr>FLOAT: ';
+	$p = new PEG('123.5', $c);
+	var_dump($p->parse_literal());
+	
+	echo '<hr>BOOL: ';
+	$p = new PEG('false', $c);
+	var_dump($p->parse_literal());
+	
+	echo '<hr>BOOL: ';
+	$p = new PEG('tRuE', $c);
+	var_dump($p->parse_literal());
+	
+	echo '<hr>STRING: ';
+	$p = new PEG('"coooollllll"', $c);
+	var_dump($p->parse_literal());
+	
+	echo '<hr>VARIABLE: ';
+	$p = new PEG('$news:title', $c);
+	var_dump($p->parse_variable());
+	
+	echo '<hr>ID: ';
+	$p = new PEG('#foo', $c);
+	var_dump($p->parse_variable());
+	
+	echo '<hr>OPERATION: ';
+	$p = new PEG('5*5', $c);
+	var_dump($p->parse_operation());
 	
 ?>

@@ -1,5 +1,5 @@
 <?php
-class Expression {
+class PEG {
     
     private $buffer = '';
     private $stack = array();
@@ -26,7 +26,7 @@ class Expression {
     }
     
     // operation ::= value ("+"/"-" ... ) value
-    private function parse_operation() {
+    public function parse_operation() {
         $opa = $this->parse_value();
         if($opa===null) return null;
         // value A matches
@@ -58,7 +58,7 @@ class Expression {
     }
     
     // value ::= variable / literal
-    private function parse_value() {
+    public function parse_value() {
         $val = $this->parse_variable();
         if($val!==null) return $val;
         $val = $this->parse_literal();
@@ -67,7 +67,7 @@ class Expression {
     }
     
     // variable ::= "$" [a-z]+ (":" [a-z]+)? / "#" [a-z]+
-    private function parse_variable() {
+    public function parse_variable() {
         $var = $this->consumeRegex('/^ \$ \w+ (?: \:\w+ )* /xi');
         if($var!==null) {
             return $this->context->get($var);
@@ -80,7 +80,7 @@ class Expression {
     }
     
     // literal ::= bool / number / string
-    private function parse_literal() {
+    public function parse_literal() {
         $lit = $this->parse_bool();
         if($lit!==null) return $lit;
         $lit = $this->parse_number();
@@ -91,7 +91,7 @@ class Expression {
     }
     
     // number ::= float / int
-    private function parse_number() {
+    public function parse_number() {
         $num = $this->parse_float();
         if($num !== null) return $num;
         $num = $this->parse_int();
@@ -100,21 +100,21 @@ class Expression {
     }
     
     // float ::= [0-9]+ (?: \.[0-9]+)?
-    private function parse_float() {
+    public function parse_float() {
         $num = $this->consumeRegex('/^ [0-9]+ \. [0-9]+ /x');
         if($num===null) return null;
         return floatval($num);
     }
     
     // int ::= [0-9]+
-    private function parse_int() {
+    public function parse_int() {
         $num = $this->consumeRegex('/^ [0-9]+ /x');
         if($num===null) return null;
         return intval($num);
     }
     
     // bool ::= "true" / "false"
-    private function parse_bool() {
+    public function parse_bool() {
         $val = $this->consumeRegex('/^ true /xi');
         if(strtoupper($val)==='TRUE') return TRUE;
         $val = $this->consumeRegex('/^ false /xi');
@@ -123,7 +123,7 @@ class Expression {
     }
     
     // string ::= '"' !('"') . '"'
-    private function parse_string() {
+    public function parse_string() {
         $val = $this->consumeRegex('/^ \" .*? \" /xs');
         if($val===null) return null;
         return substr($val, 1, strlen($val)-2);
