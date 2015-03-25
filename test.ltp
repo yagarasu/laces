@@ -18,13 +18,36 @@
         
         <ul>
         ~{ foreach#news use="$news" as="$sNews" }
-            <li>Aqui se usa $sNews de un scope interno ~{{ $sNews | html }}~, pero $nombre debe ser igual: ~{{ $nombre }}~</li>
+            <li>Aqui se usa $sNews de un scope interno. Titulo: ~{{ $sNews:title | html }}~ (por ~{{ $sNews:author }}~), pero $nombre debe ser igual: ~{{ $nombre }}~</li>
         { foreach#news }~
         </ul>
         
         <p>Aqui $sNews debe ser igual: ~{{ $sNews | html }}~</p>
         
         <p>Y aqui #news deberia estar seteado al resultado de la iteracion anterior: ~{{ #news | html }}~</p>
+        
+        <p>Aqui vamos a usar un Lace Replacer para indicar el tipo de dato que es $num: ~{{ [ typeof $num ] }}~</p>
+        
+        <p>Aqui vamos a probar el IF. $num es: ~{{ $num }}~.</p>
+        
+        ~{ if [$num exists] } <p>$num existe</p> { if }~
+        ~{ if [$num > 0] } <p>$num es mayor a 0</p> { if }~
+        ~{ if [$num < 10] } <p>$num es menor a 10</p> { if }~
+        ~{ if [$num == 5] } <p>$num es igual a 5</p> { if }~
+        ~{ if [typeof $num == "integer"] } <p>$num es un entero</p> { if }~
+        ~{ if [$num > 100] } <p>$num es mayor a 100</p> { else } <p>$num no es mayor a 100</p> { if }~
+        
+        ~{ if [errorrrororor] } error { if }~
+        
+        <p>Aqui vamos a usar un loop for del 10 al 1. Not implemented!</p>
+        
+        ~{ for use="$i" start="10" while="$i>1" step="-1" }
+            <span>Boo!</span>
+        { for}~
+        
+        <p>Aqui vamos a usar hooks. Significa que vamos a detonar una cadena de eventos previamente registrados.</p>
+        
+        ~{ hook name="CUSTOM_HOOK" foo="bar" baz="buz" }~
         
 	</div>
 	

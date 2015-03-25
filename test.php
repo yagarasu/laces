@@ -7,19 +7,23 @@
 	$c->set('$nombre','Alexys <em>Yagarasu</em>');
 	$c->set('#foo','Alexys <em>Yagarasu</em>');
 	
-	$c->set('$news:title','Lorem ipsum dolor sit amet');
+	$c->set('$news', array(
+		array( 'title'=>'Article 1' , 'author'=>'foo bar' ),
+		array( 'title'=>'Article 2' , 'author'=>'bar baz' ),
+		array( 'title'=>'Article 3' , 'author'=>'bar bar' )
+	));
 	
 	$c->set('$sNews', 'FUUUUUU');
 	
 	$c->set('$num', 5);
 	
-	// $l = new Laces($c);
+	$l = new Laces($c);
 	
-	// $l->loadAndRender('test.ltp');
+	$l->loadAndRender('test.ltp');
 	
-	// echo '<hr><pre>';
-	// var_dump($c->getRawArray());
-	// echo '</pre><hr>';
+	echo '<hr><pre>';
+	var_dump($c->getRawArray());
+	echo '</pre><hr>';
 
 	// require 'laces/Expression.class.php';
 	
@@ -65,24 +69,24 @@
 	// var_dump($p->parse_variable());
 	// echo '<p><small>Stack: '.$p->buffer.'</small></p>';
 	
-	if(!isset($_POST['parse'])) {
-		//form
+	// if(!isset($_POST['parse'])) {
+	// 	//form
 		
-		echo '
+	// 	echo '
 		
-		<form method="post" action="test.php">
-		<textarea name="parse"></textarea>
-		<button type="submit">Parse</button>
-		</form>
-		<p>Accepts: '.htmlentities('Math: + - * / % ^ ; Boolean: ! && || ^^ ; Comparation == != >= <= > < ; Nesting: (  ) ; Variables. Use $num to test. "exists" prefix operator.') . '</p>
+	// 	<form method="post" action="test.php">
+	// 	<textarea name="parse"></textarea>
+	// 	<button type="submit">Parse</button>
+	// 	</form>
+	// 	<p>Accepts: '.htmlentities('Math: + - * / % ^ ; Boolean: ! && || ^^ ; Comparation == != >= <= > < ; Nesting: (  ) ; Variables. Use $num to test. "exists" prefix operator.') . '</p>
 		
-		';
-	} else {
-		$e = (!empty($_POST['parse'])) ? $_POST['parse'] : ' 2 + 2';
-		$p = new PEG($e, $c);
-		echo '<p>Parse: ' . htmlentities($e) . '</p>';
-		var_dump($p->parse_opbool());
-		echo '<p><small>Buffer: '.$p->buffer.'</small></p>';
-	}
+	// 	';
+	// } else {
+	// 	$e = (!empty($_POST['parse'])) ? $_POST['parse'] : ' 2 + 2';
+	// 	$p = new PEG($e, $c);
+	// 	echo '<p>Parse: ' . htmlentities($e) . '</p>';
+	// 	var_dump($p->parse_opbool());
+	// 	echo '<p><small>Buffer: '.$p->buffer.'</small></p>';
+	// }
 	
 ?>

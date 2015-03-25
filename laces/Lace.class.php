@@ -1,16 +1,26 @@
 <?php
+/**
+ * Lace abstract class. All laces extends from it
+ */
 abstract class Lace {
 
+    // @override . PCRE capture pattern
 	protected $pattern = '/~\{ 
 	        .*?
 	    \}~ 
 		/six';
 
+    // Filters to be applied
 	protected $filters = array();
+	// Attributes setted
 	protected $attrs = array();
 	
+	// Raw string
 	public $rawString = '';
 
+    /**
+     * Takes a string in the form of ( \w+ = '"' .*? '"' )* and populates the attrs array with the matching elements.
+     */
     protected function parseAttrs($rawString) {
         if(empty($rawString)) return;
         $am = array();
@@ -21,6 +31,9 @@ abstract class Lace {
         }
     }
     
+    /**
+     * Takes a string in the form of \w+ = '"' .*? '"' and returns a pair contaning name and value.
+     */
     protected function parseSingleAttr($rawString) {
         $m = array();
         $pattern = '/(?<aname> \w+ )=(?<aval> \".*?\" )/msx';
@@ -31,6 +44,9 @@ abstract class Lace {
         );
     }
     
+    /**
+     * Returns a string representation
+     */
     public function __toString() {
         return '{ Lace }';
     }

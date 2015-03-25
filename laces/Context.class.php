@@ -16,6 +16,7 @@ class Context {
 		$this->rawArray = $rawArray;
 		if(!isset($this->rawArray['vars'])) $this->rawArray['vars'] = array();
 		if(!isset($this->rawArray['const'])) $this->rawArray['const'] = array();
+		if(!isset($this->rawArray['hooks'])) $this->rawArray['hooks'] = array();
 		$this->rawArray['ids'] = array();
 	}
 	
@@ -192,6 +193,16 @@ class Context {
 	 */
 	public function existsId($id) {
 		return isset($this->rawArray['ids'][$id]);
+	}
+	
+	/**
+	 * Registers a new hook in the hook queue
+	 * 
+	 * @param string $name Hook name
+	 * @param callable $callback Callback to be run when the hook is triggered
+	 */
+	public function registerHook($name, $callback) {
+		$evQ = $this->rawArray['hooks'];
 	}
 	
 	/**

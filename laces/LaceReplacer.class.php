@@ -5,7 +5,7 @@ class LaceReplacer extends Lace implements iLace {
 		(
 		  (?<id> \#\w+) |
 		  (?<varname> \$\w+(?:\:\w+)* ) |
-		  (?<exp> \[.*?\])
+		  (?<expr> \[.*?\])
 		)
 		  (?<filters> (\s*\|\s*\w+)*)
 		\s* \}\}~
@@ -29,9 +29,19 @@ class LaceReplacer extends Lace implements iLace {
 		$output = '';
 		if($this->type==='LREPLACER_TYPE_EXPR') {
 			// Parse before returning
-			$output = '(EXP '.$this->replacement.')';
+			$exprStr = substr($this->replacement, 1, strlen($this->replacement)-2);
+			$exprObj = new Expression($exprStr, $context);
+			try {
+				$output = $exprObj->parse();
+			} catch(Exception $e) {
+				$output = '<!-- LacesReplacer';
+				$output .= (isset($this->attrs['id'])) ? $this->attrs['id'] : '';
+				$output .= ' Exception. ' . $e->getMessage();
+				$output .= '-->';
+			}
+		} else {
+			$output = $context->get($this->replacement);
 		}
-		$output = $context->get($this->replacement);
 		return Filters::filterWith($output, $this->filters);
 	}
 	

@@ -1,15 +1,33 @@
 <?php
+/**
+ * Expression parser class
+ */
 class Expression {
     
-    public $buffer = '';
+    // String to be parsed
+    private $buffer = '';
+    // Stack for backtrack
     private $stack = array();
+    // Current context
     private $context = null;
     
+    /**
+     * Sets the buffer and the context. If null context given, new context is generated.
+     * 
+     * @param string $code The string to be parsed
+     * @param Context $context The context to be used or null to create a new one.
+     */
     public function __construct($code, &$context=null) {
         $this->buffer = $code;
         $this->context = ($context===null) ? new Context() : $context;
     }
     
+    /**
+     * Consumes the next regex. If matches, returns the whole match; if not, returns null. The match is added to the stack.
+     * 
+     * @param string $pattern PCRE string to be consumed. Use start of string anchor ^
+     * @return mixed Matched string or null if doesn't match.
+     */
     private function consumeRegex($pattern) {
         $m = array();
         if(preg_match($pattern, $this->buffer, $m)===0) return null;
@@ -18,6 +36,11 @@ class Expression {
         return $m[0];
     }
     
+    /**
+     * Returns the previously matched items from the stack to the buffer N times ignoring whitespaces.
+     * 
+     * @param int $amnt The amount of steps to go back.
+     */
     private function backtrack($amnt=1) {
         $cnt = 0;
         while($cnt<$amnt) {
@@ -27,15 +50,27 @@ class Expression {
         }
     }
     
+    /**
+     * Start parsing
+     * 
+     * @return mixed The result of parsing the expression.
+     */
     public function parse() {
-        return $this->parse_opbool();
+        $r = $this->parse_opbool();
+        if(preg_replace('/ \s+ | \t+ | \n+ | \r+ /xs','',$this->buffer)!=='') throw new Exception('Expected end of expression, ' . $this->buffer . ' given.');
+        return $r;
     }
     
+    /**
+     * Consumes whitespace ignoring it, but adding it to stack
+     */
     private function ignoreWhitespace() {
-        $ws = $this->consumeRegex('/^ [\s\t]+ /xs');
+        $ws = $this->consumeRegex('/^ [\s\t\n\r]+ /xs');
         if($ws===null) return false;
         return true;
     }
+    
+    /* Recursive descent parser functions */
     
     // opbool ::= opcomp ( "&&" | "||" | "^^" ) opbool / opcomp
     private function parse_opbool() {
@@ -166,6 +201,7 @@ class Expression {
     
     // unaryop ::= ( "!" ) value / value
     private function parse_unaryop() {
+        $this->ignoreWhitespace();
         $op = $this->consumeRegex('/ ^\! | ^typeof /sx');
         $this->ignoreWhitespace();
         $opa = $this->parse_value();
@@ -179,7 +215,8 @@ class Expression {
                 return !$opa;
                 break;
             case 'typeof':
-                return gettype($opa);
+                $t = gettype($opa);
+                return ($t==='NULL') ? 'undefined' : $t;
                 break;
         }
     }

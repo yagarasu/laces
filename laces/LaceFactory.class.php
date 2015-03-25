@@ -14,6 +14,17 @@ class LaceFactory {
     public static function create($rawString) {
         
         if(preg_match('/~\{ \s* 
+		(if (?<id>\#\w+)?) \s* 
+			(?<expr> \[ .*? \] ) \s*
+			(?<filters> (?: \|\s*\w+\s*)* ) \s* \}
+		        (?<ifbranch> .*?) 
+		    ( \{ \s* else \s* \}
+		        (?<elsebranch> .*?)
+		    )?
+		\{ \s* if \k<id>? \s* \}~ 
+		/six', $rawString)===1) return new LaceIf($rawString);
+        
+        if(preg_match('/~\{ \s* 
 		(foreach (?<id>\#\w+)?) \s* 
 			(?<attrs> (?: \w+=\".*?\" )* ) \s*
 			(?<filters> (?: \|\s*\w+\s*)* ) \s* \}
