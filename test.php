@@ -65,9 +65,24 @@
 	// var_dump($p->parse_variable());
 	// echo '<p><small>Stack: '.$p->buffer.'</small></p>';
 	
-	echo '<hr>OPBOOL: ';
-	$p = new PEG('(5==$num) ^^ true', $c);
-	var_dump($p->parse_opbool());
-	echo '<p><small>Stack: '.$p->buffer.'</small></p>';
+	if(!isset($_POST['parse'])) {
+		//form
+		
+		echo '
+		
+		<form method="post" action="test.php">
+		<textarea name="parse"></textarea>
+		<button type="submit">Parse</button>
+		</form>
+		<p>Accepts: '.htmlentities('Math: + - * / % ^ ; Boolean: ! && || ^^ ; Comparation == != >= <= > < ; Nesting: (  ) ; Variables. Use $num to test. "exists" prefix operator.') . '</p>
+		
+		';
+	} else {
+		$e = (!empty($_POST['parse'])) ? $_POST['parse'] : ' 2 + 2';
+		$p = new PEG($e, $c);
+		echo '<p>Parse: ' . htmlentities($e) . '</p>';
+		var_dump($p->parse_opbool());
+		echo '<p><small>Buffer: '.$p->buffer.'</small></p>';
+	}
 	
 ?>

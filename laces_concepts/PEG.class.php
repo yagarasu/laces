@@ -128,9 +128,9 @@ class PEG {
         }
     }
     
-    // opmathmult ::= value ("+"/"-" ... ) opmathmult / value
+    // opmathmult ::= unaryop ("+"/"-" ... ) opmathmult / unaryop
     public function parse_opmath_mult() {
-        $opa = $this->parse_value();
+        $opa = $this->parse_unaryop();
         if($opa===null) return null;
         // value A matches
         $this->ignoreWhitespace();
@@ -155,7 +155,27 @@ class PEG {
                 return $opa % $opb;
                 break;
             case '^':
-                return $opa ^ $opb;
+                return pow( $opa , $opb );
+                break;
+        }
+    }
+    
+    // unaryop ::= ( "!" ) value / value
+    public function parse_unaryop() {
+        $op = $this->consumeRegex('/ ^\! | ^typeof /sx');
+        $this->ignoreWhitespace();
+        $opa = $this->parse_value();
+        // None
+        if($op===null&&$opa===null) return null;
+        // It's just value
+        if($op===null&&$opa!==null) return $opa;
+        // It´s unary op
+        switch($op) {
+            case '!':
+                return !$opa;
+                break;
+            case 'typeof':
+                return gettype($opa);
                 break;
         }
     }
@@ -187,15 +207,33 @@ class PEG {
         throw new Exception('Syntax error. Unbalanced parentheses.');
     }
     
-    // variable ::= "$" [a-z]+ (":" [a-z]+)? / "#" [a-z]+
+    // variable ::= "$" [a-z]+ (":" [a-z]+)? ( "exists" )? / "#" [a-z]+ ( "exists" )?
     public function parse_variable() {
         $var = $this->consumeRegex('/^ \$ \w+ (?: \:\w+ )* /xi');
         if($var!==null) {
+            $this->ignoreWhitespace();
+            $exists = $this->consumeRegex('/ ^exists /xsi');
+            if($exists!==null) return $this->context->exists($var);
             return $this->context->get($var);
         }
         $var = $this->consumeRegex('/^ \# \w+ /xi');
         if($var!==null) {
+            $this->ignoreWhitespace();
+            $exists = $this->consumeRegex('/ ^exists /xsi');
+            if($exists!==null) return $this->context->exists($var);
             return $this->context->get($var);
+        }
+        return null;
+    }
+    
+    public function parse_identifier() {
+        $var = $this->consumeRegex('/^ \$ \w+ (?: \:\w+ )* /xi');
+        if($var!==null) {
+            return $var;
+        }
+        $var = $this->consumeRegex('/^ \# \w+ /xi');
+        if($var!==null) {
+            return $var;
         }
         return null;
     }
@@ -222,14 +260,14 @@ class PEG {
     
     // float ::= [0-9]+ (?: \.[0-9]+)?
     public function parse_float() {
-        $num = $this->consumeRegex('/^ [0-9]+ \. [0-9]+ /x');
+        $num = $this->consumeRegex('/^ \-?[0-9]+ \. [0-9]+ /x');
         if($num===null) return null;
         return floatval($num);
     }
     
     // int ::= [0-9]+
     public function parse_int() {
-        $num = $this->consumeRegex('/^ [0-9]+ /x');
+        $num = $this->consumeRegex('/^ \-?[0-9]+ /x');
         if($num===null) return null;
         return intval($num);
     }
