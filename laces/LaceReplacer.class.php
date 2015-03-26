@@ -30,8 +30,9 @@ class LaceReplacer extends Lace implements iLace {
 		if($this->type==='LREPLACER_TYPE_EXPR') {
 			// Parse before returning
 			$exprStr = substr($this->replacement, 1, strlen($this->replacement)-2);
-			$exprObj = new Expression($exprStr, $context);
+			
 			try {
+				$exprObj = new Expression($exprStr, $context);
 				$output = $exprObj->parse();
 			} catch(Exception $e) {
 				$output = '<!-- LacesReplacer';

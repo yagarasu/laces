@@ -26,7 +26,7 @@
         
         <p>Y aqui #news deberia estar seteado al resultado de la iteracion anterior: ~{{ #news | html }}~</p>
         
-        <p>Aqui vamos a usar un Lace Replacer para indicar el tipo de dato que es $num: ~{{ [ typeof $num ] }}~</p>
+        <p>Aqui vamos a usar un Lace Replacer para indicar el tipo de dato que es $num: ~{{ [ typeof $num ] }}~ ~{{[errororororor]}}~</p>
         
         <p>Aqui vamos a probar el IF. $num es: ~{{ $num }}~.</p>
         
@@ -37,7 +37,7 @@
         ~{ if [typeof $num == "integer"] } <p>$num es un entero</p> { if }~
         ~{ if [$num > 100] } <p>$num es mayor a 100</p> { else } <p>$num no es mayor a 100</p> { if }~
         
-        ~{ if [errorrrororor] } error { if }~
+        ~{ if [errororororor] } error { if }~
         
         <p>Aqui vamos a usar un loop for del 10 al 1. Not implemented!</p>
         
