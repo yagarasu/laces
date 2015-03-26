@@ -29,7 +29,8 @@
 		$p = new Expression($e, $c);
 		echo '<p>Parse: ' . htmlentities($e) . '</p>';
 		var_dump($p->parse());
-		echo '<p><small>Buffer: '.$p->buffer.'</small></p>';
+		echo '<hr>';
+		var_dump($p->getContext());
 	}
 	
 ?>

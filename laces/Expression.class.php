@@ -49,6 +49,14 @@ class Expression {
             if(preg_match('/^ [\s\t]+ /xs',$v)===0) $cnt++;
         }
     }
+
+    /**
+     * Returns the current context
+     * @return Context The current context
+     */
+    public function getContext() {
+        return $this->context;
+    }
     
     /**
      * Start parsing
@@ -56,7 +64,7 @@ class Expression {
      * @return mixed The result of parsing the expression.
      */
     public function parse() {
-        $r = $this->parse_opbool();
+        $r = $this->parse_opassign();
         if(preg_replace('/ \s+ | \t+ | \n+ | \r+ /xs','',$this->buffer)!=='') throw new Exception('Expected end of expression, ' . $this->buffer . ' given.');
         return $r;
     }
@@ -71,6 +79,23 @@ class Expression {
     }
     
     /* Recursive descent parser functions */
+
+    // opassign ::= identifier "=" opbool / opbool
+    private function parse_opassign() {
+        $ident = $this->parse_identifier();
+        if($ident===null) return $this->parse_opbool();
+        $this->ignoreWhitespace();
+        $op = $this->consumeRegex('/ ^= /x');
+        if($op===null) {
+            $this->backtrack();
+            return $this->parse_variable();
+        }
+        $this->ignoreWhitespace();
+        $opa = $this->parse_opbool();
+        if($opa===null) throw new Exception('Unexpected character. Expecting expression.');
+        $this->context->set($ident, $opa);
+        return $opa;
+    }
     
     // opbool ::= opcomp ( "&&" | "||" | "^^" ) opbool / opcomp
     private function parse_opbool() {
@@ -221,7 +246,7 @@ class Expression {
         }
     }
     
-    // value ::= variable / literal / "(" opbool ")"
+    // value ::= variable / literal / "(" opassign ")"
     private function parse_value() {
         $this->ignoreWhitespace();
         $val = $this->parse_variable();
@@ -233,7 +258,7 @@ class Expression {
         if($this->consumeRegex('/^ \( /x')===null) return null;
         // It looks like a nested expr. Check opbool
         $this->ignoreWhitespace();
-        $expr = $this->parse_opbool();
+        $expr = $this->parse_opassign();
         if($expr===null) {
             // opbool failed, backtrack
             $this->backtrack();
@@ -248,13 +273,27 @@ class Expression {
         throw new Exception('Syntax error. Unbalanced parentheses.');
     }
     
-    // variable ::= "$" [a-z]+ (":" [a-z]+)? ( "exists" )? / "#" [a-z]+ ( "exists" )?
+    // variable ::= "$" [a-z]+ (":" [a-z]+)? ( "exists" / "++" / "--" )? / "#" [a-z]+ ( "exists" )?
     private function parse_variable() {
-        $var = $this->consumeRegex('/^ \$ \w+ (?: \:\w+ )* /xi');
+        $var = $this->consumeRegex('/ ^\$ \w+ (?:\:\w+)* /six');
         if($var!==null) {
             $this->ignoreWhitespace();
             $exists = $this->consumeRegex('/ ^exists /xsi');
             if($exists!==null) return $this->context->exists($var);
+            $autoinc = $this->consumeRegex('/ ^\+\+ /x');
+            if($autoinc!==null) {
+                $cValue = $this->context->get($var);
+                $cValue += 1;
+                $this->context->set($var, $cValue);
+                return $cValue;
+            }
+            $autoinc = $this->consumeRegex('/ ^\-\- /x');
+            if($autoinc!==null) {
+                $cValue = $this->context->get($var);
+                $cValue -= 1;
+                $this->context->set($var, $cValue);
+                return $cValue;
+            }
             return $this->context->get($var);
         }
         $var = $this->consumeRegex('/^ \# \w+ /xi');
@@ -267,6 +306,7 @@ class Expression {
         return null;
     }
     
+    // identifier ::= "$" [a-z]+ (":" [a-z]+)*
     private function parse_identifier() {
         $var = $this->consumeRegex('/^ \$ \w+ (?: \:\w+ )* /xi');
         if($var!==null) {
