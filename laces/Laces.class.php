@@ -48,11 +48,11 @@ class Laces {
 		$this->context->set('$_HEADER', $header);
 		$pattern = '/
 			(?:
+				(~\{ \s* (?<fulltag> \w+(\#\w+)?) \s* (\[.*?\])? (\w+=\".*?\" \s*)* \s* (\|\s*\w+\s*)* \} .*? \{ \s* \k<fulltag> \s* \}~)
+				|
 				(~\{\{ \s* ((\$\w+(\:\w+)*) | (\#\w+) | (\[.*?\]) ) \s* (\|\s*\w+\s*)* \}\}~)
 				|
 				(~{ \s* \w+(\#\w+)? \s* (\(.*?\))? \s* (\w+=\".*?\")* \s* (\|\s*\w+\s*)* \}~)
-				|
-				(~{ \s* (?<fulltag>\w+(\#\w+)?) \s* (\[.*?\])? \s* (\w+=\".*?\")* \s* (\|\s*\w+\s*)* \} .*? \{ \s* \k<fulltag> \s*\}~)
 			)
 		/six';
 		$buffer = preg_replace_callback($pattern, array($this, 'parse_preg_replace_cb'), $buffer);

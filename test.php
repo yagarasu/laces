@@ -16,6 +16,11 @@
 	$c->set('$sNews', 'FUUUUUU');
 	
 	$c->set('$num', 5);
+
+	$c->registerHook('CUSTOM_HOOK', function($hook) {
+		echo "Do something in a hook hook";
+		var_dump($hook);
+	});
 	
 	$l = new Laces($c);
 	

@@ -19,12 +19,9 @@ class LaceHook extends Lace implements iLace {
 	}
 
 	public function parse(Context &$context) {
-	    if(empty($this->attrs['name'])) {
-	        $output = '<!-- Laces Foreach';
-			$output .= (isset($this->attrs['id'])) ? $this->attrs['id'] : '';
-			$output .= ' Error. "'.$this->attrs['use'].'" is not an array or it does not exist.';
-			$output .= '-->';
-			return $output;
+	    if(!empty($this->attrs['name'])) {
+	        $context->triggerHook($this->attrs['name'], $this->attrs);
+	        return '';
 	    }
 		return '';
 	}

@@ -38,6 +38,12 @@ class LaceFactory {
 			(?<filters> (?:\|\s*\w+\s*)*) \s*
 		\}~ 
 		/six', $rawString)===1) return new LaceInclude($rawString);
+
+        if(preg_match('/~\{ \s* 
+		(hook (?<id>\#\w+)?) \s* 
+			(?<attrs> (?: \w+=\".*?\" )* ) \s*
+		\}~ 
+		/six', $rawString)===1) return new LaceHook($rawString);
 		
 		if(preg_match('/~\{\{ \s*
 		(

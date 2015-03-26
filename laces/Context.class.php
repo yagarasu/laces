@@ -202,7 +202,37 @@ class Context {
 	 * @param callable $callback Callback to be run when the hook is triggered
 	 */
 	public function registerHook($name, $callback) {
-		$evQ = $this->rawArray['hooks'];
+		if(!isset($this->rawArray['hooks'][$name])||!is_array($this->rawArray['hooks'][$name])) {
+			$this->rawArray['hooks'][$name] = array($callback);
+			return;
+		} else {
+			array_push($this->rawArray['hooks'], $callback);
+		}
+	}
+
+	/**
+	 * Unregisters a hook from the hook queue
+	 * @param  string $name     The hook name to remove the callback from
+	 * @param  callable $callback The callable to remove
+	 */
+	public function unregisterHook($name, $callback) {
+		if(!isset($this->rawArray['hooks'][$name])||!in_array($callback, $this->rawArray['hooks'][$name], true)) return;
+		$this->rawArray['hooks'][$name] = array_filter($this->rawArray['hooks'][$name], function($cb) use ($callback) {
+			return $cb === $callback;
+		});
+	}
+
+	/**
+	 * Triggers the hook queue.
+	 *
+	 * @param  string $name  The hook name
+	 * @param  array $attrs The attribs to pass to the hook
+	 */
+	public function triggerHook($name, $attrs) {
+		if(!isset($this->rawArray['hooks'][$name])||count($this->rawArray['hooks'][$name])===0) return;
+		foreach ($this->rawArray['hooks'][$name] as $cb) {
+			call_user_func($cb, $attrs);
+		}
 	}
 	
 	/**
