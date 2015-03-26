@@ -1,0 +1,341 @@
+[26-Mar-2015 14:56:33 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 60
+[26-Mar-2015 14:58:46 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 49
+[26-Mar-2015 15:54:40 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 1 on line 1' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:76
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(26): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('dfgsdgsdfg', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 76
+[26-Mar-2015 15:55:39 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 1 on line 1' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:76
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(26): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('(((', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 76
+[26-Mar-2015 16:00:08 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 1 on line 1' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:77
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(26): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('(((a', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 77
+[26-Mar-2015 16:21:52 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 2 on line 1' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:102
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$variable:foo:f...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 102
+[26-Mar-2015 16:22:38 UTC] PHP Parse error:  syntax error, unexpected '$e' (T_VARIABLE), expecting identifier (T_STRING) or namespace (T_NAMESPACE) or \\ (T_NS_SEPARATOR) in /home/ubuntu/workspace/laces/expr/parser/client.php on line 20
+[26-Mar-2015 16:24:33 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 2 on line 1' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:102
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$variable:foo:f...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 102
+[26-Mar-2015 16:25:31 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 2 on line 1: ) ) )) #asdasd ^^ ^ && ||' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:102
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$variable:foo:f...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 102
+[26-Mar-2015 16:25:58 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 2 on line 1: ") ) )) #asdasd ^^ ^ && ||".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:102
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$variable:foo:f...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 102
+[26-Mar-2015 16:26:42 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 19 on line 1: ") ) )) #asdasd ^^ ^ && ||".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:102
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$variable:foo:f...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 102
+[26-Mar-2015 16:27:43 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 19 on line 1: ") ) ) ) ) ) #asdasd ^^ ^ && ||".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:102
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$variable:foo:f...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 102
+[26-Mar-2015 16:27:58 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 19 on line 1: " ) ) ) ) ) ) ) #asdasd ^^ ^ && ||".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:102
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$variable:foo:f...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 102
+[26-Mar-2015 16:28:08 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 19 on line 1: ") ) ) ) ) ) ) #asdasd ^^ ^ && ||".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:102
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$variable:foo:f...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 102
+[26-Mar-2015 16:29:43 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 15 on line 1: "
++
+-
+/
+*
+%
+^
+&&
+||
+^^
+!
+=
+==
+>=
+<=
+>
+<
+++
+--
+exists
+typeof".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:102
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$foo:bar:bar??#...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 102
+[26-Mar-2015 16:30:02 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 15 on line 1: "
++
+-
+/
+*
+%
+^
+&&
+||
+^^
+!
+=
+==
+>=
+<=
+>
+<
+++
+--
+exists
+typeof".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:102
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$foo:bar:bar??#...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 102
+[26-Mar-2015 16:30:08 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 15 on line 1: "
++
+-
+/
+*
+%
+^
+&&
+||
+^^
+!
+=
+==
+>=
+<=
+>
+<
+++
+--
+exists
+typeof".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:102
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$foo:bar:bar??#...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 102
+[26-Mar-2015 16:30:11 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 15 on line 1: "
++
+-
+/
+*
+%
+^
+&&
+||
+^^
+!
+=
+==
+>=
+<=
+>
+<
+++
+--
+exists
+typeof".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:102
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$foo:bar:bar??#...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 102
+[26-Mar-2015 16:31:55 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 104 on line 1: "".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:104
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$foo:bar:bar??#...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 104
+[26-Mar-2015 16:39:28 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 104 on line 1: "".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:104
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$foo:bar:bar??#...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 104
+[26-Mar-2015 16:41:20 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 104 on line 1: "".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:104
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$foo:bar:bar??#...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 104
+[26-Mar-2015 16:43:24 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 104 on line 1: "".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:104
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$foo:bar:bar??#...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 104
+[26-Mar-2015 16:43:29 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 104 on line 1: "".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:104
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$foo:bar:bar??#...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 104
+[26-Mar-2015 16:44:19 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 104 on line 1: "".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:107
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$foo:bar:bar??#...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 107
+[26-Mar-2015 16:44:26 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 104 on line 1: "".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:107
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$foo:bar:bar??#...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 107
+[26-Mar-2015 16:45:24 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 104 on line 1: "".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:107
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$foo:bar:bar??#...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 107
+[26-Mar-2015 16:46:29 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 104 on line 1: "".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:107
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$foo:bar:bar??#...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 107
+[26-Mar-2015 16:47:06 UTC] PHP Fatal error:  Call to undefined function char() in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 107
+[26-Mar-2015 16:50:10 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 50 on line 1: "^
+!
+=
+==
+>=
+<=
+>
+<
+++
+--
+exists
+typeof".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:107
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$foo:bar:bar??#...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 107
+[26-Mar-2015 16:51:21 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 50 on line 1: "^
+!
+=
+==
+>=
+<=
+>
+<
+++
+--
+exists
+typeof".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:107
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$foo:bar:bar??#...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 107
+[26-Mar-2015 17:10:06 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 50: "^
+!
+=
+==
+>=
+<=
+>
+<
+++
+--
+exists
+typeof".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:107
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(51): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$foo:bar:bar??#...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 107
+[26-Mar-2015 17:17:46 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 78: "45
++
+-
+/
+*
+%
+^
+&&
+||
+^^
+!
+=
+==
+>=
+<=
+>
+<
+++
+--
+exists
+typeof
+;".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:112
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(54): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('$foo:bar:bar??#...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 112
+[26-Mar-2015 17:25:10 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 4: "".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:112
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(54): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('123.45', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 112
+[26-Mar-2015 17:30:07 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 1: "asdasd	asdasd
+	asdasd
+		asdasd
+			asdasdasd".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:112
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(54): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('asdasdasd?asdas...', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 112
+[26-Mar-2015 18:09:17 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 1: "".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:228
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(56): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('"adsasd'', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 228
+[26-Mar-2015 18:09:25 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 1: "".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:228
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(56): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(14): Expression->__construct('asdasd', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 228
+[26-Mar-2015 18:20:56 UTC] PHP Fatal error:  Call to a member function get() on a non-object in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 118
+[26-Mar-2015 18:30:00 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Unknown token found at 1: "".' in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php:231
+Stack trace:
+#0 /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php(56): Expression->tokenize()
+#1 /home/ubuntu/workspace/laces/expr/parser/client.php(20): Expression->__construct('sdfsdf', Object(Context))
+#2 {main}
+  thrown in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 231
+[26-Mar-2015 21:27:03 UTC] PHP Notice:  Array to string conversion in /home/ubuntu/workspace/laces/expr/parser/isolatedParser/Expression.class.php on line 114
