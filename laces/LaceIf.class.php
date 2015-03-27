@@ -34,7 +34,7 @@ class LaceIf extends Lace implements iLace {
 		try {
 			$exprObj = new Expression($exprStr, $context);
 			$exprRes = $exprObj->parse();
-		} catch(\Exception $e) {
+		} catch(Exception $e) {
 			$output  = '<!-- LacesIf';
 			$output .= (isset($this->attrs['id'])) ? $this->attrs['id'] : '';
 			$output .= ' Exception. ' . $e->getMessage();

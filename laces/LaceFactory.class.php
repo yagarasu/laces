@@ -31,6 +31,14 @@ class LaceFactory {
 				(?<cont> .*?)
 		\{ \s* foreach \k<id> \s* \}~ 
 		/six', $rawString)===1) return new LaceForeach($rawString);
+		
+		if(preg_match('/~\{ \s* 
+		(for (?<id>\#\w+)?) \s* 
+			(?<attrs> (?: \w+=\".*?\" )* ) \s*
+			(?<filters> (?: \|\s*\w+\s*)* ) \s* \}
+				(?<cont> .*?)
+		\{ \s* for \k<id>? \s* \}~ 
+		/six', $rawString)===1) return new LaceFor($rawString);
         
         if(preg_match('/~\{ \s* 
 		(include (?<id>\#\w+)?) \s* 

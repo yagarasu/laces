@@ -18,7 +18,11 @@
         
         <ul>
         ~{ foreach#news use="$news" as="$sNews" }
-            <li>Aqui se usa $sNews de un scope interno. Titulo: ~{{ $sNews:title | html }}~ (por ~{{ $sNews:author }}~), pero $nombre debe ser igual: ~{{ $nombre }}~</li>
+            <li>
+                Aqui se usa $sNews de un scope interno. 
+                Titulo: ~{{ $sNews:title | html }}~ (por ~{{ $sNews:author }}~), pero $nombre debe ser igual: ~{{ $nombre }}~.
+                ~{ if [$num exists] } <p>$num existe</p> { if }~
+            </li>
         { foreach#news }~
         </ul>
         
@@ -39,11 +43,13 @@
         
         ~{ if [errororororor] } error { if }~
         
-        <p>Aqui vamos a usar un loop for del 10 al 1. Not implemented!</p>
+        <p>Aqui vamos a usar un loop for del 10 al 1.</p>
         
-        ~{ for use="$i" start="10" while="$i>1" step="-1" }
-            <span>Boo!</span>
-        { for}~
+        ~{ for#forloop use="$i" start="10" while="$i>=1" step="$i--" }
+            <span>Boo! ~{{ $i }}~</span>
+        { for#forloop }~
+        
+        <p>Loop again: ~{{ #forloop }}~</p>
         
         <p>Aqui vamos a usar hooks. Significa que vamos a detonar una cadena de eventos previamente registrados.</p>
         

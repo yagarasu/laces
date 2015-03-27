@@ -6,7 +6,7 @@ class LaceFor extends Lace implements iLace {
 			(?<attrs> (?: \w+=\".*?\" )* ) \s*
 			(?<filters> (?: \|\s*\w+\s*)* ) \s* \}
 				(?<cont> .*?)
-		\{ \s* for \k<id> \s* \}~ 
+		\{ \s* for \k<id>? \s* \}~ 
 		/six';
 		
 	protected $id = null;
@@ -31,6 +31,10 @@ class LaceFor extends Lace implements iLace {
 
 	public function parse(Context &$context) {
 		$output = '';
+		$hdr  = '{{{ LacesBlock ';
+		$hdr .= (isset($this->attrs['id'])) ? 'generatedFrom="'.$this->attrs['id'].'"' : '';
+		$hdr .= ' }}}';
+		
 		$use = $this->attrs['use'];
 		$step = $this->attrs['step'];
 		
@@ -40,44 +44,28 @@ class LaceFor extends Lace implements iLace {
 		$start = new Expression($this->attrs['start'], $context);
 		$context->set($use, $start->parse());
 		unset ($start);
+		
+		// Subparser
+		$l = new Laces($context);
+		
 		// While loop
-		    $infloopBreaker = 100;
 	    $whileExpr = new Expression($this->attrs['while'], $context);
 	    $whileExpr = $whileExpr->parse();
 		while($whileExpr==true) {
 		    
-		    // Step
-		    $stepExpr = new Expression($use . '+' . $step);
+		    $tmp = $hdr . $this->cont;
+		    $output .= $l->parse($tmp);
 		    
+		    // Step
+		    $stepExpr = new Expression($step, $context);
+		    $stepExpr->parse();
 		    
 		    // Re evaluate
 		    $whileExpr = new Expression($this->attrs['while'], $context);
 	        $whileExpr = $whileExpr->parse();
-		    
-		    // No more than 100 iterations while debuging
-		    if($infloopBreaker===0) { break; } else { $infloopBreaker--; }
 		}
 		
-		$var = $context->get();
-		if($var===null||!is_array($var)) {
-			$output .= '<!-- Laces For';
-			$output .= (isset($this->attrs['id'])) ? $this->attrs['id'] : '';
-			$output .= ' Error. "'.$this->attrs['use'].'" is not an array or it does not exist.';
-			$output .= '-->';
-		} else {
-			$hdr  = '{{{ LacesBlock ';
-			$hdr .= (isset($this->attrs['id'])) ? 'generatedFrom="'.$this->attrs['id'].'"' : '';
-			$hdr .= ' }}}';
-			$as = $this->attrs['as'];
-			$oldAs = ($context->exists($as)) ? $context->get($as) : null;
-			$l = new Laces($context);
-			foreach($var as $v) {
-				$context->set($as, $v);
-				$tmp = $hdr . $this->cont;
-				$output .= $l->parse($tmp);
-			}
-		}
-		if($oldAs!==null) $context->set($as, $oldAs);
+		if($oldVar!==null) $context->set($use, $oldVar);
 		$fOut = Filters::filterWith($output, $this->filters);
 		if($this->id!==null) $context->set($this->id, $fOut);
 		return $fOut;
