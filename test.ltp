@@ -53,6 +53,14 @@
         
         <p>Aqui vamos a usar hooks. Significa que vamos a detonar una cadena de eventos previamente registrados.</p>
         
+        ~{ if#foo1 [1==1] }
+            ~{ if#foo2 [2!=2] }
+                <p>IMPOSIBURU</p>
+            { else#foo2 }
+                <p>Ifs anidados</p>
+            { if#foo2 }~
+        { if#foo1 }~
+        
         ~{ hook name="CUSTOM_HOOK" foo="bar" baz="buz" }~
         
 	</div>

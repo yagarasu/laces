@@ -6,7 +6,7 @@ class LaceIf extends Lace implements iLace {
 			(?<expr> \[ .*? \] ) \s*
 			(?<filters> (?: \|\s*\w+\s*)* ) \s* \}
 		        (?<ifbranch> .*?) 
-		    ( \{ \s* else \s* \}
+		    ( \{ \s* else \k<id>? \s* \}
 		        (?<elsebranch> .*?)
 		    )?
 		\{ \s* if \k<id>? \s* \}~ 
