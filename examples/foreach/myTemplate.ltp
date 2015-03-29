@@ -1,0 +1,25 @@
+{{{ LacesTemplate language="es_MX" author="Alexys Hegmann" }}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>~{{ $title | html }}~</title>
+</head>
+<body>
+	
+	<div id="wrapper">
+	    
+	    <h1>News: ~{{ $cat }}~</h1>
+	    <ul>
+        ~{ foreach#news use="$news" as="$sNews" }
+            <li>
+          		~{{ $sNews:title | html }}~ (by ~{{ $sNews:author }}~ published ~{{ $sNews:date }}~)
+            </li>
+        { foreach#news }~
+        </ul>
+        
+	</div>
+	
+</body>
+</html>

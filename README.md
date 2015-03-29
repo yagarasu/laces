@@ -12,9 +12,14 @@ For this first version, I took just the basic idea and refactored the whole conc
 The most important difference about this version of Laces is the use of a custom expression parser, unlike the v0.1 which used the eval() function --exposing the server for a little bit of functionality--.
 
 ## How to use it
-In your PHP client you must include or require the Laces.class.php (TO DO: CHECK):
+In your PHP client you must include or require the autoloader and register it:
 ```php
-require 'laces/Laces.class.php';
+// Define the correct directory. Optional. Default set to 'laces/'.
+define('LACES_ROOT', '../../laces/');
+// Require the autoloader
+require LACES_ROOT . 'autoloader.inc.php';
+// Register it
+laces_register_autoloader();
 ```
 Then you are ready to use Laces.
 

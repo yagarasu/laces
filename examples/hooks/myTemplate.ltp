@@ -1,0 +1,22 @@
+{{{ LacesTemplate language="es_MX" author="Alexys Hegmann" }}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>~{{ $title | html }}~</title>
+</head>
+<body>
+	
+	<div id="wrapper">
+
+		<div id="content">
+			<p>Some content blah blah Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil fugiat excepturi, suscipit perferendis velit soluta aliquid ea provident alias natus fuga deserunt est unde modi minus aspernatur libero laudantium, atque?</p>
+		</div>
+
+	</div>
+
+	~{ hook name="DOC_END" foo="bar" }~
+	
+</body>
+</html>

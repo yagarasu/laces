@@ -230,9 +230,11 @@ class Context {
 	 */
 	public function triggerHook($name, $attrs) {
 		if(!isset($this->rawArray['hooks'][$name])||count($this->rawArray['hooks'][$name])===0) return;
+		$out = '';
 		foreach ($this->rawArray['hooks'][$name] as $cb) {
-			call_user_func($cb, $attrs);
+			$out = call_user_func($cb, $out, $attrs);
 		}
+		return $out;
 	}
 	
 	/**

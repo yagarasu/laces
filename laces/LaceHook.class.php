@@ -20,8 +20,8 @@ class LaceHook extends Lace implements iLace {
 
 	public function parse(Context &$context) {
 	    if(!empty($this->attrs['name'])) {
-	        $context->triggerHook($this->attrs['name'], $this->attrs);
-	        return '';
+	        return $context->triggerHook($this->attrs['name'], $this->attrs);
+	        
 	    }
 		return '';
 	}

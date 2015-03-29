@@ -1,0 +1,20 @@
+{{{ LacesTemplate language="es_MX" author="Alexys Hegmann" hcolor="#cc0000" }}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>~{{ $title | html }}~</title>
+</head>
+<body>
+	
+	<div id="wrapper">
+	    
+	    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ac tellus ornare, tempor velit efficitur, gravida est. Donec sit amet imperdiet velit. Integer convallis metus rhoncus erat scelerisque semper. Vestibulum <strong>porttitor</strong> massa faucibus dolor consequat tristique. Aliquam et fermentum metus, quis eleifend lorem. Nunc et molestie purus. Ut eu convallis turpis, eget hendrerit velit.</p>
+
+        <p>Hello, ~{{ $name | html }}~, what's up. Did you know that this <span style="color: ~{{ $_HEADER:hcolor | attr }}~;">template</span> was created by ~{{ $_HEADER:author }}~?</p>
+        
+	</div>
+	
+</body>
+</html>

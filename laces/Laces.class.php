@@ -1,20 +1,6 @@
 <?php
 // Shared
 define('LACES_VERSION','1.0.0');
-if(!defined('LACES_ROOT')) define('LACES_ROOT', 'laces/');
-
-// Autoload
-spl_autoload_register(function($className) {
-	if(preg_match('/^i[A-Z]\w*$/', $className)===1) {
-		// Is interface
-		$filename = LACES_ROOT . $className . '.inc.php';
-	} else {
-		// Is class
-		$filename = LACES_ROOT . $className . '.class.php';
-	}
-	if(!is_readable($filename)) throw new Exception('Unable to load file "'.$filename.'".');
-	require_once($filename);
-});
 
 /**
  * Laces core class

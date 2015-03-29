@@ -1,0 +1,25 @@
+{{{ LacesTemplate language="es_MX" author="Alexys Hegmann" }}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>~{{ $title | html }}~</title>
+</head>
+<body>
+	
+	<div id="wrapper">
+	    
+		<p>$num is: ~{{ $num }}~</p>
+
+	    ~{ if [$num exists] } <p>$num exists</p> { if }~
+        ~{ if [$num > 0] } <p>$num is greater than 0</p> { if }~
+        ~{ if [$num < 10] } <p>$num is lesser than 10</p> { if }~
+        ~{ if [$num == 5] } <p>$num is equal to 5</p> { if }~
+        ~{ if [typeof $num == "integer"] } <p>$num is an integer</p> { if }~
+        ~{ if [$num > 100] } <p>$num is greater than 100</p> { else } <p>$num is not greater than 100</p> { if }~
+        
+	</div>
+	
+</body>
+</html>

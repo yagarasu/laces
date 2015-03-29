@@ -1,0 +1,43 @@
+{{{ LacesTemplate language="es_MX" author="Alexys Hegmann" }}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>~{{ $title | html }}~</title>
+	<style>
+		#wrapper {
+			width: 980px;
+			margin: 10px auto 0px auto;
+		}
+		.panel {
+			width: 300px;
+			margin: 10px;
+			float: left;
+		}
+		.panel > h2 {
+			border-bottom: 1px solid #333333;
+		}
+	</style>
+</head>
+<body>
+	
+	<div id="wrapper">
+
+        ~{ foreach#cats use="$cats" as="$cat" }
+            <div class="panel">
+            	<h2>News</h2>
+          		<ul>
+          		~{ foreach#news use="$cat" as="$n" }
+          			<li>
+          				~{{ $n:title | html }}~ (by ~{{ $n:author }}~ published ~{{ $n:date }}~)
+          			</li>
+          		{ foreach#news }~
+          		</ul>
+            </div>
+        { foreach#cats }~
+        
+	</div>
+	
+</body>
+</html>
