@@ -14,6 +14,9 @@
 		// is the end of the doc. Include scripts, maybe
 		return $input.'<script>alert("Injected javascript via hooks with the attrib foo='.$attrs['foo'].'. Access to the context via use($context): '.$c->get('$_HEADER:author').'");</script>';
 	});
+	$c->registerHook('DOC_START', function($input, $attrs) use ($c) {
+		$c->set('$injected','injected from hook');
+	});
 
 	// Parse
 	$laces = new Laces($c);

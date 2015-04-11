@@ -7,11 +7,14 @@
 	<title>~{{ $title | html }}~</title>
 </head>
 <body>
+
+	~{ hook name="DOC_START" }~
 	
 	<div id="wrapper">
 
 		<div id="content">
 			<p>Some content blah blah Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil fugiat excepturi, suscipit perferendis velit soluta aliquid ea provident alias natus fuga deserunt est unde modi minus aspernatur libero laudantium, atque?</p>
+			<p>~{{ $injected }}~</p>
 		</div>
 
 	</div>
