@@ -15,7 +15,7 @@
 				// Is class
 				$filename = LACES_ROOT . $className . '.class.php';
 			}
-			if(!is_readable($filename)) throw new Exception('Unable to load file "'.$filename.'".');
+			if(!is_readable($filename)) return;
 			require_once($filename);
 		});
 	}
