@@ -2,7 +2,7 @@
 PHP Templating engine. Part of the Crinoline Framework
 
 ## Current version
-The current version is 1.0.0
+The current version is 1.0.1
 
 ## Laces is...
 Laces is a PHP templating engine built at first inside the [Crinoline Framework](https://github.com/yagarasu/crinoline) v0.1. The parser was tied to the framework so tight, it was difficult to use it as a library. That´s why I decided to extract and revamp the engine from scratch.
